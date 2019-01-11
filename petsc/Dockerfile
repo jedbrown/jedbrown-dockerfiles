@@ -1,43 +1,12 @@
-FROM ubuntu:cosmic
-
-RUN apt-get update && apt-get install -y \
-  bash-completion \
-  chrpath \
-  cmake \
-  curl \
-  g++ \
-  gcc \
-  gfortran \
-  git \
-  libopenblas-dev \
-  locales \
-  m4 \
-  make \
-  python3-distutils \
-  zlib1g-dev \
-  && rm -rf /var/lib/apt/lists/*
-
-RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
-ENV LANG=en_US.UTF-8
-
-WORKDIR /build
-RUN curl -O http://www.mpich.org/static/downloads/3.3/mpich-3.3.tar.gz && \
-  tar xf mpich-3.3.tar.gz && \
-  rm mpich-3.3.tar.gz && \
-  cd mpich-3.3 && \
-  ./configure && \
-  make -j4 && \
-  make install && \
-  cd /build && \
-  rm -rf /build/mpich-3.3 && \
-  ldconfig
+FROM jedbrown/mpich:latest
 
 ENV PETSC_DIR=/usr/local/petsc/mpich-int32-real-opt
 RUN git clone --depth=1 --branch=master https://bitbucket.org/petsc/petsc && \
   cd petsc && \
-  OPT='-O2 -march=native'; \
+  OPT='-O2 -march=native -ffp-contract=fast'; \
   PETSC_INSTALL_PREFIX=$PETSC_DIR; unset PETSC_DIR; \
   python3 configure --prefix=$PETSC_INSTALL_PREFIX \
+    --with-cxx-dialect=C++11 \
     --with-debugging=0 COPTFLAGS="$OPT" CXXOPTFLAGS="$OPT" FOPTFLAGS="$OPT" \
     --with-mpi-dir=/usr/local \
     --download-ctetgen \
