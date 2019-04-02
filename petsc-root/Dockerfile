@@ -1,4 +1,4 @@
-FROM jedbrown/petsc:master
+FROM jedbrown/petsc:latest
 
 USER root
 
