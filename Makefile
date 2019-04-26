@@ -1,5 +1,8 @@
 mpich:
-	docker build -t jedbrown/mpich mpich
+	docker build -t jedbrown/mpich --build-arg BASE_IMAGE=ubuntu mpich
+
+mpich-cuda:
+	docker build -t jedbrown/mpich-cuda --build-arg BASE_IMAGE=nvidia/cuda mpich
 
 petsc:
 	docker build -t jedbrown/petsc petsc
