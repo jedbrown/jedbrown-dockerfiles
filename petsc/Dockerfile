@@ -1,7 +1,8 @@
-FROM jedbrown/mpich:latest
+ARG BASE_IMAGE=jedbrown/mpich:latest
+FROM ${BASE_IMAGE}
 
 ENV PETSC_DIR=/usr/local/petsc/mpich-int32-real-opt
-RUN git clone --depth=1 --branch=master https://bitbucket.org/petsc/petsc && \
+RUN git clone --depth=1 --branch=master https://gitlab.com/petsc/petsc && \
   cd petsc && \
   OPT='-O2 -march=native -ffp-contract=fast'; \
   PETSC_INSTALL_PREFIX=$PETSC_DIR; unset PETSC_DIR; \

@@ -107,3 +107,10 @@ USER pylith
 LABEL maintainer='Jed Brown <jed@jedbrown.org>'
 LABEL description='PyLith dependencies'
 
+USER root
+RUN apt-get update && apt-get install -y \
+    valgrind \
+    valgrind-mpi \
+    gdb \
+  && rm -rf /var/lib/apt/lists/*
+USER pylith

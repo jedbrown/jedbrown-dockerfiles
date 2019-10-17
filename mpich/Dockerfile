@@ -1,4 +1,4 @@
-ARG BASE_IMAGE
+ARG BASE_IMAGE=ubuntu
 FROM ${BASE_IMAGE}
 
 RUN apt-get update && apt-get install -y \
@@ -10,7 +10,8 @@ RUN apt-get update && apt-get install -y \
   gcc \
   gfortran \
   git \
-  libopenblas-dev \
+  libblis-serial-dev \
+  liblapack-dev \
   locales \
   m4 \
   make \
@@ -23,16 +24,19 @@ RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 
 WORKDIR /build
-RUN curl -O http://www.mpich.org/static/downloads/3.3/mpich-3.3.tar.gz && \
-  tar xf mpich-3.3.tar.gz && \
-  rm mpich-3.3.tar.gz && \
-  cd mpich-3.3 && \
-  ./configure --disable-wrapper-rpath && \
+ARG MPICH_DEVICE=ch3:nemesis
+ARG MPICH_VERSION=3.3.1
+RUN \
+  curl -O http://www.mpich.org/static/downloads/${MPICH_VERSION}/mpich-${MPICH_VERSION}.tar.gz && \
+  tar xf mpich-${MPICH_VERSION}.tar.gz && \
+  rm mpich-${MPICH_VERSION}.tar.gz && \
+  cd mpich-${MPICH_VERSION} && \
+  ./configure --disable-wrapper-rpath --with-device=${MPICH_DEVICE} && \
   make -j4 && \
   make install && \
   cd /build && \
-  rm -rf /build/mpich-3.3 && \
+  rm -rf /build/mpich-${MPICH_VERSION} && \
   ldconfig
 
 LABEL maintainer='Jed Brown <jed@jedbrown.org>'
-LABEL description='Ubuntu Cosmic with compilers and MPICH'
+LABEL description='Ubuntu Disco with compilers and MPICH'
