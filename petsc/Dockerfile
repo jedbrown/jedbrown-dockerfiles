@@ -14,6 +14,7 @@ RUN git clone --depth=1 --branch=master https://gitlab.com/petsc/petsc && \
     --download-exodusii \
     --download-hdf5 \
     --download-hypre \
+    --download-med \
     --download-metis \
     --download-ml \
     --download-mumps \

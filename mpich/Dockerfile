@@ -2,6 +2,7 @@ ARG BASE_IMAGE=ubuntu
 FROM ${BASE_IMAGE}
 
 RUN apt-get update && apt-get install -y \
+  autoconf \
   bash-completion \
   chrpath \
   cmake \
@@ -12,6 +13,7 @@ RUN apt-get update && apt-get install -y \
   git \
   libblis-serial-dev \
   liblapack-dev \
+  libtool \
   locales \
   m4 \
   make \
@@ -25,7 +27,7 @@ ENV LANG=en_US.UTF-8
 
 WORKDIR /build
 ARG MPICH_DEVICE=ch3:nemesis
-ARG MPICH_VERSION=3.3.1
+ARG MPICH_VERSION=3.3.2
 RUN \
   curl -O http://www.mpich.org/static/downloads/${MPICH_VERSION}/mpich-${MPICH_VERSION}.tar.gz && \
   tar xf mpich-${MPICH_VERSION}.tar.gz && \
@@ -39,4 +41,4 @@ RUN \
   ldconfig
 
 LABEL maintainer='Jed Brown <jed@jedbrown.org>'
-LABEL description='Ubuntu Disco with compilers and MPICH'
+LABEL description='Ubuntu with compilers and MPICH'
