@@ -8,8 +8,10 @@ RUN apt-get update && apt-get install -y \
 
 RUN ln -s /usr/bin/python3 /usr/local/bin/python
 RUN useradd -ms /bin/bash ceed
-USER ceed
 WORKDIR /home/ceed
+COPY packages.yaml .spack/linux/packages.yaml
+RUN chown -R ceed:ceed .spack
+USER ceed
 
 LABEL maintainer='Jed Brown <jed@jedbrown.org>'
 LABEL description='MPICH and development packages, ready for CEED'

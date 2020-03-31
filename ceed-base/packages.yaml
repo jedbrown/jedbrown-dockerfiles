@@ -1,0 +1,76 @@
+# Copyright (c) 2019, Lawrence Livermore National Security, LLC. Produced at
+# the Lawrence Livermore National Laboratory. LLNL-CODE-734707. All Rights
+# reserved. See files LICENSE and NOTICE for details.
+#
+# This file is part of CEED, a collection of benchmarks, miniapps, software
+# libraries and APIs for efficient high-order finite element and spectral
+# element discretizations for exascale applications. For more information and
+# source code availability see http://github.com/ceed.
+#
+# The CEED research is supported by the Exascale Computing Project 17-SC-20-SC,
+# a collaborative effort of two U.S. Department of Energy organizations (Office
+# of Science and the National Nuclear Security Administration) responsible for
+# the planning and preparation of a capable exascale ecosystem, including
+# software, applications, hardware, advanced system engineering and early
+# testbed platforms, in support of the nation's exascale computing imperative.
+#
+# By default, the Spack-based CEED installation will build all required packages
+# from scratch, which can take a long time. The file ~/.spack/packages.yaml, or
+# ~/.spack/<platform>/packages.yaml allows you to list packages already
+# installed on your system for Spack to use instead of compiling them itself.
+#
+# This is an example packages.yaml file for Ubuntu 19.10 using GCC and other
+# development packages via "apt install" and with MPICH installed separately (as
+# needed to use containerized HPC environments like Shifter and Singularity).
+# You can use
+#
+#    docker pull jedbrown/ceed-base
+#
+# to get a build environment that is ready for "spack install ceed".
+
+packages:
+    all:
+        compiler: [gcc]
+        providers:
+            mpi: [mpich]
+            blas: [blis]
+            lapack: [netlib-lapack]
+    blis:
+        paths:
+            blis@0.6.0: /usr/lib
+        buildable: False
+    netlib-lapack:
+        paths:
+            netlib-lapack@3.8.0: /usr/lib
+        buildable: False
+    mpich:
+        paths:
+            mpich@3.3.2: /usr/local
+        buildable: False
+
+    cmake:
+        paths:
+            cmake@3.13.4: /usr
+        buildable: False
+    libx11:
+        paths:
+            libx11@system: /usr
+        version: [system]
+        buildable: False
+    libxt:
+        paths:
+            libxt@system: /usr
+        version: [system]
+        buildable: False
+    xproto:
+        paths: # See /usr/share/pkgconfig/xproto.pc for version
+            xproto@7.0.32: /usr
+        buildable: False
+    python:
+        paths:
+             python@3.7.5: /usr
+        buildable: False
+    zlib:
+        paths:
+            zlib@1.2.11: /usr/lib
+        buildable: False
