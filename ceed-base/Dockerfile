@@ -4,6 +4,7 @@ USER root
 RUN apt-get update && apt-get install -y \
     libx11-dev \
     libxt-dev \
+    wget \
   && rm -rf /var/lib/apt/lists/*
 
 RUN ln -s /usr/bin/python3 /usr/local/bin/python

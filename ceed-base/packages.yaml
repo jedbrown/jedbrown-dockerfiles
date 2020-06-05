@@ -1,4 +1,4 @@
-# Copyright (c) 2019, Lawrence Livermore National Security, LLC. Produced at
+# Copyright (c) 2020, Lawrence Livermore National Security, LLC. Produced at
 # the Lawrence Livermore National Laboratory. LLNL-CODE-734707. All Rights
 # reserved. See files LICENSE and NOTICE for details.
 #
@@ -26,7 +26,8 @@
 #
 #    docker pull jedbrown/ceed-base
 #
-# to get a build environment that is ready for "spack install ceed".
+# to get a build environment with this packages.yaml that is ready for
+# "spack install ceed".
 
 packages:
     all:
@@ -42,6 +43,21 @@ packages:
     netlib-lapack:
         paths:
             netlib-lapack@3.8.0: /usr/lib
+       variants: +external-blas~lapacke
+        buildable: False
+    openblas:
+        buildable: False
+    libflame:
+        buildable: False
+    veclibfort:
+        buildable: False
+    intel-parallel-studio:
+        buildable: False
+    intel-mkl:
+        buildable: False
+    cray-libsci:
+        buildable: False
+    atlas:
         buildable: False
     mpich:
         paths:
@@ -51,6 +67,10 @@ packages:
     cmake:
         paths:
             cmake@3.13.4: /usr
+        buildable: False
+    m4:
+        paths:
+            m4@1.4.18: /usr
         buildable: False
     libx11:
         paths:
