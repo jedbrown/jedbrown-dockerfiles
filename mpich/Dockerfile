@@ -1,6 +1,7 @@
 ARG BASE_IMAGE=ubuntu
 FROM ${BASE_IMAGE}
 
+RUN echo Etc/UTC > /etc/timezone && ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime
 RUN apt-get update && apt-get install -y \
   autoconf \
   bash-completion \
@@ -29,7 +30,7 @@ WORKDIR /build
 ARG MPICH_DEVICE=ch3:nemesis
 ARG MPICH_VERSION=3.3.2
 RUN \
-  curl -O http://www.mpich.org/static/downloads/${MPICH_VERSION}/mpich-${MPICH_VERSION}.tar.gz && \
+  curl -O https://www.mpich.org/static/downloads/${MPICH_VERSION}/mpich-${MPICH_VERSION}.tar.gz && \
   tar xf mpich-${MPICH_VERSION}.tar.gz && \
   rm mpich-${MPICH_VERSION}.tar.gz && \
   cd mpich-${MPICH_VERSION} && \

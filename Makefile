@@ -1,4 +1,4 @@
-UBUNTU ?= ubuntu:rolling
+UBUNTU ?= ubuntu:latest
 MPICH ?= jedbrown/mpich:latest
 
 mpich:

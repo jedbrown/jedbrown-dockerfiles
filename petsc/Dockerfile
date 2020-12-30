@@ -7,7 +7,7 @@ RUN git clone --depth=1 --branch=master https://gitlab.com/petsc/petsc && \
   OPT='-O2 -march=native -ffp-contract=fast'; \
   PETSC_INSTALL_PREFIX=$PETSC_DIR; unset PETSC_DIR; \
   python3 configure --prefix=$PETSC_INSTALL_PREFIX \
-    --with-cxx-dialect=C++11 \
+    --with-cxx-dialect=C++14 \
     --with-debugging=0 COPTFLAGS="$OPT" CXXOPTFLAGS="$OPT" FOPTFLAGS="$OPT" \
     --with-mpi-dir=/usr/local \
     --download-ctetgen \
