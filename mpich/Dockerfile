@@ -1,8 +1,8 @@
-ARG BASE_IMAGE=ubuntu
+ARG BASE_IMAGE=ubuntu:20.10
 FROM ${BASE_IMAGE}
 
 RUN echo Etc/UTC > /etc/timezone && ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
   autoconf \
   bash-completion \
   chrpath \
