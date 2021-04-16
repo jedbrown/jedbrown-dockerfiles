@@ -28,7 +28,7 @@ ENV LANG=en_US.UTF-8
 
 WORKDIR /build
 ARG MPICH_DEVICE=ch3:nemesis
-ARG MPICH_VERSION=3.3.2
+ARG MPICH_VERSION=3.4.1
 RUN \
   curl -O https://www.mpich.org/static/downloads/${MPICH_VERSION}/mpich-${MPICH_VERSION}.tar.gz && \
   tar xf mpich-${MPICH_VERSION}.tar.gz && \
