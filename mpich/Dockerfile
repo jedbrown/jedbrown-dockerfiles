@@ -1,10 +1,11 @@
-ARG BASE_IMAGE=ubuntu:20.10
+ARG BASE_IMAGE=ubuntu:21.10
 FROM ${BASE_IMAGE}
 
 RUN echo Etc/UTC > /etc/timezone && ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime
 RUN apt-get update && apt-get install -y --no-install-recommends \
   autoconf \
   bash-completion \
+  ca-certificates \
   chrpath \
   cmake \
   curl \
@@ -28,13 +29,13 @@ ENV LANG=en_US.UTF-8
 
 WORKDIR /build
 ARG MPICH_DEVICE=ch3:nemesis
-ARG MPICH_VERSION=3.4.1
+ARG MPICH_VERSION=3.4.3
 RUN \
   curl -O https://www.mpich.org/static/downloads/${MPICH_VERSION}/mpich-${MPICH_VERSION}.tar.gz && \
   tar xf mpich-${MPICH_VERSION}.tar.gz && \
   rm mpich-${MPICH_VERSION}.tar.gz && \
   cd mpich-${MPICH_VERSION} && \
-  ./configure --disable-wrapper-rpath --with-device=${MPICH_DEVICE} && \
+  ./configure --disable-wrapper-rpath --with-device=${MPICH_DEVICE} FFLAGS='-fallow-argument-mismatch' && \
   make -j4 && \
   make install && \
   cd /build && \

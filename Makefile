@@ -1,4 +1,4 @@
-UBUNTU ?= ubuntu:latest
+UBUNTU ?= ubuntu:21.10
 MPICH ?= jedbrown/mpich:latest
 
 mpich:
