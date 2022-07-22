@@ -28,69 +28,73 @@
 #
 # to get a build environment with this packages.yaml that is ready for
 # "spack install ceed".
-
 packages:
-    all:
-        compiler: [gcc]
-        providers:
-            mpi: [mpich]
-            blas: [blis]
-            lapack: [netlib-lapack]
-    blis:
-        paths:
-            blis@0.6.0: /usr/lib
-        buildable: False
-    netlib-lapack:
-        paths:
-            netlib-lapack@3.8.0: /usr/lib
-       variants: +external-blas~lapacke
-        buildable: False
-    openblas:
-        buildable: False
-    libflame:
-        buildable: False
-    veclibfort:
-        buildable: False
-    intel-parallel-studio:
-        buildable: False
-    intel-mkl:
-        buildable: False
-    cray-libsci:
-        buildable: False
-    atlas:
-        buildable: False
-    mpich:
-        paths:
-            mpich@3.3.2: /usr/local
-        buildable: False
-
-    cmake:
-        paths:
-            cmake@3.13.4: /usr
-        buildable: False
-    m4:
-        paths:
-            m4@1.4.18: /usr
-        buildable: False
-    libx11:
-        paths:
-            libx11@system: /usr
-        version: [system]
-        buildable: False
-    libxt:
-        paths:
-            libxt@system: /usr
-        version: [system]
-        buildable: False
-    xproto:
-        paths: # See /usr/share/pkgconfig/xproto.pc for version
-            xproto@7.0.32: /usr
-        buildable: False
-    python:
-        paths:
-             python@3.7.5: /usr
-        buildable: False
-    zlib:
-        paths:
-            zlib@1.2.11: /usr/lib
-        buildable: False
+  all:
+    compiler:
+    - gcc
+    providers:
+      mpi:
+      - mpich
+      blas:
+      - blis
+      lapack:
+      - netlib-lapack
+  mpi:
+    buildable: false
+  blas:
+    buildable: false
+  lapack:
+    buildable: false
+  mpich:
+    externals:
+    - spec: mpich@3.3.2
+      prefix: /usr/local
+  blis:
+    buildable: false
+    externals:
+    - spec: blis@0.6.1
+      prefix: /usr/lib
+  netlib-lapack:
+    variants: +external-blas~lapacke
+    externals:
+    - spec: netlib-lapack@3.9.0
+      prefix: /usr/lib
+  cmake:
+    buildable: false
+    externals:
+    - spec: cmake@3.16.3
+      prefix: /usr
+  m4:
+    buildable: false
+    externals:
+    - spec: m4@1.4.18
+      prefix: /usr
+  libx11:
+    version:
+    - system
+    buildable: false
+    externals:
+    - spec: libx11@system
+      prefix: /usr
+  libxt:
+    version:
+    - system
+    buildable: false
+    externals:
+    - spec: libxt@system
+      prefix: /usr
+  xproto:
+    buildable: false
+    externals:
+    - spec: xproto@7.0.32
+      prefix: /usr
+  python:
+    buildable: false
+    externals:
+    - spec: python@3.8.2
+      prefix: /usr
+  zlib:
+    buildable: false
+    externals:
+    - spec: zlib@1.2.11
+      prefix: /usr
