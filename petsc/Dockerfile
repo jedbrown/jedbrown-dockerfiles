@@ -1,20 +1,17 @@
 ARG BASE_IMAGE=jedbrown/mpich:latest
-ARG PETSC_GIT_BRANCH=release
 FROM ${BASE_IMAGE}
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-  automake \
-  && rm -rf /var/lib/apt/lists/*
+ARG PETSC_GIT_BRANCH=release
 
 ENV PETSC_DIR=/usr/local/petsc/mpich-int32-real-opt
-RUN git clone --depth=1 --branch=${PETSC_GIT_BRANCH} https://gitlab.com/petsc/petsc.git && \
+RUN git clone --depth=1 --branch=$PETSC_GIT_BRANCH https://gitlab.com/petsc/petsc.git && \
   cd petsc && \
-  OPT='-O2 -march=native -ffp-contract=fast'; \
+  OPT='-O2 -march=haswell -ffp-contract=fast'; \
   PETSC_INSTALL_PREFIX=$PETSC_DIR; unset PETSC_DIR; \
   python3 configure --prefix=$PETSC_INSTALL_PREFIX \
     --with-cxx-dialect=C++14 \
     --with-debugging=0 COPTFLAGS="$OPT" CXXOPTFLAGS="$OPT" FOPTFLAGS="$OPT" \
     --with-mpi-dir=/usr/local \
+    --download-cgns \
     --download-ctetgen \
     --download-exodusii \
     --download-hdf5 \
@@ -35,8 +32,9 @@ RUN git clone --depth=1 --branch=${PETSC_GIT_BRANCH} https://gitlab.com/petsc/pe
     --with-zlib \
     && \
   make
-RUN cd petsc && make install
+RUN make -C petsc install
 RUN chrpath --delete \
+    $PETSC_DIR/lib/libcgns.so \
     $PETSC_DIR/lib/libhdf5.so \
     $PETSC_DIR/lib/libmetis.so \
     $PETSC_DIR/lib/libpnetcdf.so \
@@ -57,7 +55,8 @@ RUN chrpath --delete \
   rm -rf /build/petsc
 
 FROM ${BASE_IMAGE}
-COPY --from=0 / /
+ENV PETSC_DIR=/usr/local/petsc/mpich-int32-real-opt
+COPY --from=0 ${PETSC_DIR} ${PETSC_DIR}
 
 RUN useradd -ms /bin/bash petsc
 USER petsc

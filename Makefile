@@ -1,5 +1,6 @@
-UBUNTU ?= ubuntu:21.10
-MPICH ?= jedbrown/mpich:latest
+UBUNTU = ubuntu:22.04
+MPICH = jedbrown/mpich:latest
+PETSC_GIT_BRANCH = release
 
 mpich:
 	docker build -t jedbrown/mpich --build-arg BASE_IMAGE=$(UBUNTU) mpich
@@ -15,6 +16,9 @@ mpich-cuda:
 
 petsc:
 	docker build -t jedbrown/petsc --build-arg BASE_IMAGE=$(MPICH) petsc
+
+petsc-main:
+	docker build -t jedbrown/petsc:main --build-arg BASE_IMAGE=$(MPICH) --build-arg PETSC_GIT_BRANCH=main petsc
 
 petsc-root:
 	docker build -t jedbrown/petsc-root petsc-root
