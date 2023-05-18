@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   gfortran \
   git \
   less \
-  libblis-serial-dev \
+  libopenblas-dev \
   libhdf5-openmpi-dev \
   liblapack-dev \
   libopenmpi-dev \
