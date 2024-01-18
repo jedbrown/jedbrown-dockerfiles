@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=ubuntu:22.04
+ARG BASE_IMAGE=ubuntu:23.04
 FROM ${BASE_IMAGE}
 
 RUN echo Etc/UTC > /etc/timezone && ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime
@@ -34,7 +34,7 @@ ENV LANG=en_US.UTF-8
 
 WORKDIR /build
 ARG MPICH_DEVICE=ch3:nemesis
-ARG MPICH_VERSION=4.0.2
+ARG MPICH_VERSION=4.1.2
 RUN \
   curl -O https://www.mpich.org/static/downloads/${MPICH_VERSION}/mpich-${MPICH_VERSION}.tar.gz && \
   tar xf mpich-${MPICH_VERSION}.tar.gz && \

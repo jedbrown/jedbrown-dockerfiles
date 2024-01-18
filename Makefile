@@ -1,4 +1,4 @@
-UBUNTU = ubuntu:22.04
+UBUNTU = ubuntu:23.10
 MPICH = jedbrown/mpich:latest
 PETSC_GIT_BRANCH = release
 
