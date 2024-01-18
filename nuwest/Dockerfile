@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=ubuntu:20.04
+ARG BASE_IMAGE=ubuntu:22.04
 ARG PETSC_GIT_BRANCH=main
 FROM ${BASE_IMAGE}
 
@@ -76,11 +76,20 @@ ENV CEED_DIR=/usr/local
 RUN git clone --depth=1 https://github.com/CEED/libCEED.git && \
   make -C libCEED -j install prefix=$CEED_DIR OPT='-O2 -march=haswell -ffp-contract=fast' && \
   make -C libCEED/examples/fluids && \
-  mv libCEED/examples/fluids/navierstokes /usr/local/bin/ceed-fluids
+  mv libCEED/examples/fluids/navierstokes /usr/local/bin/ceed-fluids && \
+  ln -s ceed-fluids /usr/local/bin/navierstokes
 
 RUN export PETSC_DIR=/usr/local CEED_DIR=/usr/local && \
   git clone https://gitlab.com/micromorph/ratel && \
   make -C ratel -j install prefix=/usr/local
 
+FROM ${BASE_IMAGE}
+COPY --from=0 /usr /usr
+COPY --from=0 /etc /etc
+RUN git config --global --add safe.directory /data
+ENV PETSC_DIR=/usr/local CEED_DIR=/usr/local
+ENV OMPI_ALLOW_RUN_AS_ROOT=1 OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+WORKDIR /data
+
 LABEL maintainer='Jed Brown <jed@jedbrown.org>'
-LABEL description='Ubuntu with PETSc'
+LABEL description='Ubuntu with PETSc, libCEED, and Ratel'
